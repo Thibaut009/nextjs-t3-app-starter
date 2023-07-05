@@ -1,0 +1,49 @@
+.google_signin_button,
+.discord_signin_button,
+.github_signin_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0 5px 0;
+  padding: 20px 40px;
+  width: 350px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.google_signin_button:hover,
+.discord_signin_button:hover,
+.github_signin_button:hover {
+  background-color: #f0f0f0;
+}
+
+.google_logo,
+.discord_logo,
+.github_logo {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  background-size: cover;
+  margin-right: 10px;
+}
+
+.google_logo {
+  background-image: url(../../public/google_logo.svg);
+}
+
+.discord_logo {
+  background-image: url(../../public/discord_logo.svg);
+}
+
+.github_logo {
+  background-image: url(../../public/github_logo.svg);
+}
+
+.button_text {
+  font-size: 20px;
+  font-weight: bold;
+}

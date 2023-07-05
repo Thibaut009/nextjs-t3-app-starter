@@ -22,3 +22,25 @@ export const exampleRouter = createTRPCRouter({
     return "you can now see this secret message!";
   }),
 });
+
+
+
+
+export const postRouter = createTRPCRouter({
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.post.findMany();
+  }),
+
+  create: protectedProcedure
+  .input(z.object({ title: z.string(), content: z.string() }))
+  .mutation(async ({ input: { title, content }, ctx }) => {
+    const post = await ctx.prisma.post.create({
+      data: { 
+        title, 
+        content, 
+        userId: ctx.session.user.id },
+    });
+
+    return post;
+  }),
+});
