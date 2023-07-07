@@ -8,7 +8,7 @@ export default function Profile() {
 
   if (status === "authenticated") {
     return (
-      <section className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <section className="flex min-h-screen flex-col items-center justify-center">
         <p className="text-2xl text-white">{sessionData.user.name}</p>
         <p className="text-2xl text-white">{sessionData.user.email}</p>
         {sessionData.user.image && (

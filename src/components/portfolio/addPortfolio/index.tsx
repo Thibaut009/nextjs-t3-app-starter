@@ -2,15 +2,12 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
 
-export default function AddPortfolioForm() {
+export default function CreatePortfolioForm() {
   const { data: sessionData, status } = useSession();
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
 
   const addPortfolio = api.portfolio.add.useMutation();
-
-  // Utilisation de useQuery pour la requête getUserPortfolio
-  const getUserPortfolioQuery = api.portfolio.getUserPortfolio.useQuery();
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -22,12 +19,14 @@ export default function AddPortfolioForm() {
       setTitle('');
       setUrl('');
 
-      // Mettre à jour les données du portfolio après la création ou la mise à jour
       getUserPortfolioQuery.refetch();
     } catch (error) {
       console.error(error);
     }
   };
+
+  // Utilisation de useQuery pour la requête getUserPortfolio
+  const getUserPortfolioQuery = api.portfolio.getUserPortfolio.useQuery();
 
   if (status === 'authenticated') {
     return (

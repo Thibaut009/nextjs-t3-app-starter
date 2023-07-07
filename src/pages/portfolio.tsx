@@ -1,13 +1,13 @@
 import Header from "~/components/header";
-import Navbar from "~/components/navbar"
-import Home from "~/components/home";
+import Navbar from "~/components/navbar";
+import Portfolio from "~/components/portfolio";
 
-export default function IndexPage() {
+export default function PortfolioPage() {
   return (
     <main className="bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
       <Header />
       <Navbar>
-        <Home />
+        <Portfolio />
       </Navbar>
     </main>
   );

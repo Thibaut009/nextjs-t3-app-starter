@@ -1,26 +1,25 @@
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
+
+const isUrlValid = (inputUrl: string) => {
+  const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+  return urlPattern.test(inputUrl);
+};
 
 export const portfolioRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const portfolios = await ctx.prisma.portfolio.findMany({
-      include: { user: true }, // Inclure les données de l'utilisateur lié au portfolio
+      include: { user: true },
     });
 
     return portfolios;
   }),
 
   getUserPortfolio: protectedProcedure.query(async ({ ctx }) => {
-    // Vérifier d'abord si l'utilisateur est authentifié
     if (!ctx.session.user) {
       throw new Error("Utilisateur non authentifié");
     }
 
-    // Récupérer le portfolio de l'utilisateur
     const portfolio = await ctx.prisma.portfolio.findUnique({
       where: {
         userId: ctx.session.user.id,
@@ -31,49 +30,47 @@ export const portfolioRouter = createTRPCRouter({
   }),
 
   add: protectedProcedure
-  .input(
-    z.object({
-      title: z.string(),
-      url: z.string(),
-    })
-  )
-  .mutation(async ({ input: { title, url }, ctx }) => {
-    // Vérifier d'abord si l'utilisateur est authentifié
-    if (!ctx.session.user) {
-      throw new Error("Utilisateur non authentifié");
-    }
+    .input(
+      z.object({
+        title: z.string(),
+        url: z.string().refine((value) => isUrlValid(value), {
+          message: "URL is not valid",
+        }),
+      })
+    )
+    .mutation(async ({ input: { title, url }, ctx }) => {
+      if (!ctx.session.user) {
+        throw new Error("Utilisateur non authentifié");
+      }
 
-    // Vérifier si l'utilisateur a déjà un portfolio
-    const existingPortfolio = await ctx.prisma.portfolio.findUnique({
-      where: {
-        userId: ctx.session.user.id,
-      },
-    });
-
-    if (existingPortfolio) {
-      // Si un portfolio existe, effectuer la mise à jour
-      const updatedPortfolio = await ctx.prisma.portfolio.update({
+      const existingPortfolio = await ctx.prisma.portfolio.findUnique({
         where: {
-          id: existingPortfolio.id,
-        },
-        data: {
-          title,
-          url,
-        },
-      });
-
-      return updatedPortfolio;
-    } else {
-      // Si aucun portfolio n'existe, effectuer la création
-      const createdPortfolio = await ctx.prisma.portfolio.create({
-        data: {
-          title,
-          url,
           userId: ctx.session.user.id,
         },
       });
 
-      return createdPortfolio;
-    }
-  }),
+      if (existingPortfolio) {
+        const updatedPortfolio = await ctx.prisma.portfolio.update({
+          where: {
+            id: existingPortfolio.id,
+          },
+          data: {
+            title,
+            url,
+          },
+        });
+
+        return updatedPortfolio;
+      } else {
+        const createdPortfolio = await ctx.prisma.portfolio.create({
+          data: {
+            title,
+            url,
+            userId: ctx.session.user.id,
+          },
+        });
+
+        return createdPortfolio;
+      }
+    }),
 });
