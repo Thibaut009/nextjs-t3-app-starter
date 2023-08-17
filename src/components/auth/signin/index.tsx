@@ -1,4 +1,6 @@
 import { signIn } from "next-auth/react";
+import styles from "~/components/header/styles.module.css"
+import { FaSignInAlt } from 'react-icons/fa';
 
 export default function Signin() {
 
@@ -8,10 +10,10 @@ export default function Signin() {
 
   return (
     <button
-      className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
       onClick={handleSignIn}
     >
-      Sign in
-  </button>
+      <FaSignInAlt className={styles.header_links_icon}/> 
+      <label className={styles.header_text}>Sign in</label>
+    </button>
   );
 }

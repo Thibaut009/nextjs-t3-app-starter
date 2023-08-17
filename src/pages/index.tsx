@@ -4,11 +4,10 @@ import Home from "~/components/home";
 
 export default function IndexPage() {
   return (
-    <main className="bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
+    <main>
       <Header />
-      <Navbar>
-        <Home />
-      </Navbar>
+      <Home />
+      <Navbar />
     </main>
   );
 }

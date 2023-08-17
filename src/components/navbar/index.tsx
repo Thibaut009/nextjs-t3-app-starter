@@ -1,34 +1,47 @@
+import React from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import Signout from "~/components/auth/signout";
-import Signin from "~/components/auth/signin";
+import styles from "~/components/navbar/styles.module.css";
+import { HiHome, HiUsers, HiNewspaper } from 'react-icons/hi';
+import { BiSolidMessageRoundedDetail } from 'react-icons/bi';
 
-interface NavbarProps {
-  children: React.ReactNode;
-}
+export default function Navbar() {
+  const { status } = useSession();
 
-export default function Navbar({ children }: NavbarProps) {
-  const { data: sessionData, status } = useSession();
   return (
-    <section className="flex min-h-screen">
-      <div className="fixed text-white bg-gray-800 w-52 flex flex-col items-center justify-between h-full">
-        <div className="flex flex-col items-center py-8">
-          <h1 className="text-2xl">Logo</h1>
-        </div>
-        <div className="flex flex-col flex-grow items-center justify-center">
-          <div className="flex flex-col items-center space-y-4">
-            <Link href="/">Home</Link>
-            <Link href="/portfolio">Portfolio</Link>
-            {status === "authenticated" && <Link href="/profile">Profile</Link>}
-          </div>
-        </div>
-        <div className="flex flex-col items-center pb-8">
-          {status === "authenticated" ? <Signout /> : <Signin />}
-        </div>
+    <nav className={styles.bottomNavbar}>
+      <div className={styles.navbar_menu}>
+        <ul className={styles.navbar_links}>
+          <li>
+            <Link className={styles.navbar_link} href="/">
+              <HiHome className={styles.navbar_icon}/> 
+              <label className={styles.navbar_text}>Home</label>
+            </Link>
+          </li>
+          {status === "authenticated" && (
+            <>
+              <li>
+                <Link className={styles.navbar_link} href="/user">
+                  <HiUsers className={styles.navbar_icon}/> 
+                  <label className={styles.navbar_text}>User</label>
+                </Link>
+              </li>
+              <li>
+                <Link className={styles.navbar_link} href="/news">
+                  <HiNewspaper className={styles.navbar_icon}/> 
+                  <label className={styles.navbar_text}>News</label>
+                </Link>
+              </li>
+              <li>
+                <Link className={styles.navbar_link} href="/message">
+                  <BiSolidMessageRoundedDetail className={styles.navbar_icon}/> 
+                  <label className={styles.navbar_text}>Message</label>
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
-      <div className="flex-grow ml-52">
-        {children} {/* Affiche les composants enfants */}
-      </div>
-    </section>
+    </nav>
   );
 }

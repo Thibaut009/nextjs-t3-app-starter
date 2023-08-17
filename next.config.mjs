@@ -1,9 +1,3 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-await import("./src/env.mjs");
-
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
@@ -18,6 +12,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  // Ajoutez la configuration PWA ici
+  pwa: {
+    dest: "public", // Le répertoire de sortie pour les fichiers du service worker
+    register: true,
+    skipWaiting: true,
+    // disable: process.env.NODE_ENV === "development",
+  },
+  
 };
 
 export default config;

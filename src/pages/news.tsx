@@ -1,17 +1,18 @@
 import Header from "~/components/header";
-import Navbar from "~/components/navbar";
-import Profile from "~/components/profile";
+import Navbar from "~/components/navbar"
+import News from "~/components/news";
 import { GetSessionParams, getSession } from 'next-auth/react';
 
-export default function ProfilePage() {
+export default function NewsPage() {
   return (
     <main>
       <Header />
-      <Profile />
+      <News />
       <Navbar />
     </main>
   );
 }
+
 
 export async function getServerSideProps(context: GetSessionParams | undefined) {
   const session = await getSession(context);

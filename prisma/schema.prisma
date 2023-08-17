@@ -3,7 +3,6 @@
 
 generator client {
     provider = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
@@ -58,39 +57,16 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  portfolio    Portfolio?
-  likes         Like[]
+  sentMessages  Message[] @relation("Sender")
+  receivedMessages  Message[] @relation("Receiver")
 }
 
-model Portfolio {
-  id        String    @id @default(cuid())
-  title     String
-  url       String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userId    String    @unique
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  keywords  keyword[]
-  likes     Like[]
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  sender    User     @relation("Sender", fields: [senderId], references: [id])
+  senderId  String
+  receiver  User     @relation("Receiver", fields: [receiverId], references: [id])
+  receiverId String
+  createdAt DateTime @default(now())
 }
-
-
-model keyword {
-  id          String     @id @default(cuid())
-  name        String
-  portfolio  Portfolio[]
-}
-
-model Like {
-  id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id])
-  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
-  userId      String
-  portfolioId String
-
-  @@unique([userId, portfolioId])
-}
-
-
-
-

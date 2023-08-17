@@ -47,3 +47,39 @@
   font-size: 20px;
   font-weight: bold;
 }
+
+
+/* Style par défaut pour les boutons de connexion */
+.default_signin_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0 5px 0;
+  padding: 20px 40px;
+  width: 350px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.default_signin_button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style par défaut pour les logos */
+.default_logo {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  background-size: cover;
+  margin-right: 10px;
+}
+
+/* Style pour le texte du bouton */
+.button_text {
+  font-size: 20px;
+  font-weight: bold;
+}

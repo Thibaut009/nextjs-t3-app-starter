@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    
+    --bg: white;
+    --wave: #f3f4f5;
+    --textNormal: black;
+    --textTitle: black;
+    --textComp: white;
+    --navLink: #f7f7f7;
+    --hr: hsla(0, 0%, 0%, 0.2);
+
+    --gradient: linear-gradient(to right, #7a21ff, #21D4FD);
+    --gradientColor1: #7a21ff;
+    --gradientColor2: #21D4FD;
+ }

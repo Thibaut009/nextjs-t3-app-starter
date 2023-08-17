@@ -1,4 +1,6 @@
 import { signOut } from "next-auth/react";
+import styles from "~/components/header/styles.module.css"
+import { FaSignOutAlt } from 'react-icons/fa';
 
 export default function Signout() {
 
@@ -8,10 +10,10 @@ export default function Signout() {
 
   return (
     <button
-      className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
       onClick={handleSignIn}
     >
-      Sign out
-  </button>
+      <FaSignOutAlt className={styles.header_links_icon}/> 
+      <label className={styles.header_text}>Sign out</label>
+    </button>
   );
 }
